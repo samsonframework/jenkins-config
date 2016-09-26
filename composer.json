@@ -27,7 +27,7 @@
     "sebastian/phpcpd": "*",
     "squizlabs/php_codesniffer": "*",
     "phploc/phploc": "*"
-  }
+  },
   "license": "Open Software License (OSL) v 3.0",
   "homepage": "http://samsonos.com/",
   "extra": {
