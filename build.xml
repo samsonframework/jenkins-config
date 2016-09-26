@@ -1,4 +1,4 @@
-<project name="Seductive Mobile" default="full-build">
+<project name="jenkins-config">
 
     <!-- System pre-installed tools -->
     <property name="composer" value="composer"/>
