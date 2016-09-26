@@ -57,33 +57,16 @@
             description="Performs static analysis"
     />
 
-    <target name="clean" unless="clean.done" description="Cleanup build artifacts">
+    <target name="clean" description="Cleanup build artifacts">
+        <echo message="Current branch: ${env.GIT_BRANCH}"/>
+
         <delete dir="${buildoutputdir}"/>
         <mkdir dir="${buildoutputdir}"/>
-        <echo message="Current branch: ${env.GIT_BRANCH}"/>
-        <property name="clean.done" value="true"/>
-    </target>
 
-    <target name="prepare-wordpress" description="Prepare Symfony">
-        <exec executable="cp">
-            <arg value="-f"></arg>
-            <arg value="${rootdir}/www/wp-config.test.php"/>
-            <arg value="${rootdir}/www/wp-config.php"></arg>
-        </exec>
-        <exec executable="mkdir">
-            <arg value="-p"></arg>
-            <arg value="${failsdir}"></arg>
-        </exec>
-        <exec executable="mkdir">
-            <arg value="-p"></arg>
-            <arg value="${rootdir}/www/wp-content/uploads"></arg>
-        </exec>
-        <exec executable="chmod">
-            <arg value="-R"></arg>
-            <arg value="0777"></arg>
-            <arg value="${rootdir}/www/wp-content/uploads"></arg>
-        </exec>
-        <property name="prepare-wordpress.done" value="true"/>
+        <echo message="Create screenshots folder"/>
+        <mkdir dir="${failsdir}"/>
+        <chmod perm="777" dir="${failsdir}" type="dir" includes="**"/>
+
     </target>
 
     <target name="if.dev.branch">
