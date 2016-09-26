@@ -1,16 +1,10 @@
-<project name="wordpress">
+<project name="wordpress" default="prepare">
     <property name="wordpress.dir" value="${basedir}/www"/>
     <property name="wordpress.uploads" value="${wordpress.dir}/wp-content/uploads"/>
 
     <target name="prepare" description="Prepare Wordpress project">
         <echo message="Creating wp-config.php from wp-config.test.php"/>
         <copy file="${wordpress.dir}/wp-config.test.php" tofile="${wordpress.dir}/wp-config.php"/>
-
-        <!--<exec executable="cp">-->
-            <!--<arg value="-f"></arg>-->
-            <!--<arg value="${wordpress.dir}/wp-config.test.php"/>-->
-            <!--<arg value="${wordpress.dir}/wp-config.php"></arg>-->
-        <!--</exec>-->
 
         <echo message="Creating uploads folder"/>
         <mkdir dir="${wordpress.uploads}"/>

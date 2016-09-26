@@ -9,6 +9,7 @@
             <arg value="install"/>
             <arg value="jshint"/>
             <arg value="--no-interaction"/>
+            <arg value="--save"/>
         </exec>
         <property name="prepare.done" value="true"/>
     </target>

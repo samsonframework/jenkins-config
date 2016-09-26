@@ -9,11 +9,13 @@
             <arg value="install"/>
             <arg value="lesshint"/>
             <arg value="--no-interaction"/>
+            <arg value="--save"/>
         </exec>
         <exec executable="${npm}">
             <arg value="install"/>
             <arg value="lesshint-lint-xml-reporter"/>
             <arg value="--no-interaction"/>
+            <arg value="--save"/>
         </exec>
         <property name="prepare.done" value="true"/>
     </target>
