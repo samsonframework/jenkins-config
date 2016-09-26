@@ -1,5 +1,5 @@
 <project name="deployer">
-    <property name="deployer" value="${basedir}/vendor/bin/deployer"/>
+    <property name="deployer" value="${basedir}/vendor/bin/dep"/>
 
     <target name="execute"
             description="Deploying project"
