@@ -1,5 +1,4 @@
 <project name="jenkins-config">
-
     <!-- System pre-installed tools -->
     <property name="composer" value="composer"/>
     <property name="npm" value="npm"/>
