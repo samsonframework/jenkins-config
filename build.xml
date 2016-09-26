@@ -1,0 +1,199 @@
+<project name="Seductive Mobile" default="full-build">
+
+    <!-- System pre-installed tools -->
+    <property name="composer" value="composer"/>
+    <property name="npm" value="npm"/>
+    <property name="php" value="php"/>
+    <property environment="env"/>
+
+    <!-- Project folders -->
+    <property name="rootdir" value="${basedir}"/>
+    <property name="codebase" value="${rootdir}/www/wp-content/themes/seductive"/>
+    <property name="builddir" value="${rootdir}/build"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="failsdir" value="${builddir}/fails"/>
+    <property name="nodedir" value="${rootdir}/node_modules/.bin"/>
+    <property name="csslint" value="${nodedir}/csslint"/>
+    <property name="jshint" value="${nodedir}/jshint"/>
+    <property name="lesshint" value="${nodedir}/lesshint"/>
+
+    <!-- Behat configuration -->
+    <!--<property name="behat" value="${basedir}/vendor/bin/behat"/>-->
+    <!--<property name="configuration" value="behat.chrome.yml"/>-->
+    <!--<property name="profile" value="jenkins"/>-->
+
+    <!-- Including building tools targets -->
+    <include file="build.behat.xml" as="behat"/>
+    <include file="build.phpmd.xml" as="phpmd"/>
+    <include file="build.phpcpd.xml" as="phpcpd"/>
+    <include file="build.pdepend.xml" as="pdepend"/>
+    <include file="build.phpcs.xml" as="phpcs"/>
+    <include file="build.phploc.xml" as="phploc"/>
+    <include file="build.phplint.xml" as="phplint"/>
+    <include file="build.phpmetrics.xml" as="phpmetrics"/>
+    <include file="build.phpdox.xml" as="phpdox"/>
+    <include file="build.phpunit.xml" as="phpunit"/>
+    <include file="build.deployer.xml" as="phpunit"/>
+
+    <target name="full-build"
+            depends="prepare,clean,database,prepare-wordpress,composer,npm-init,static-analysis,phpunit.execute,behat.execute,deployer.execute"
+            description="Performs static analysis, runs the tests, and generates project documentation"/>
+
+    <target name="static-analysis"
+            depends="
+            phplint.phplint,
+            phploc.phploc-ci,
+            pdepend.pdepend,
+            phpmd.phpmd-ci,
+            phpcs.phpcs-ci,
+            phpcpd.phpcpd-ci"
+            description="Performs static analysis"
+    />
+
+    <!-- Adjust the threadCount attribute's value to the number of CPUs -->
+    <target name="static-analysis-parallel" description="Performs static analysis (executing the tools in parallel)">
+        <parallel threadCount="4">
+            <sequential>
+                <antcall target="pdepend.pdepend"/>
+                <antcall target="pmd.phpmd-ci"/>
+            </sequential>
+            <antcall target="phplint.phplint"/>
+            <antcall target="lesshint"/>
+            <antcall target="jshint"/>
+            <antcall target="csshint"/>
+            <antcall target="phpcpd.phpcpd-ci"/>
+            <antcall target="phpcs.phpcs-ci"/>
+            <antcall target="phploc.phploc-ci"/>
+        </parallel>
+    </target>
+
+    <target name="clean" unless="clean.done" description="Cleanup build artifacts">
+        <delete dir="${buildoutputdir}"/>
+        <property name="clean.done" value="true"/>
+    </target>
+
+    <target name="prepare" unless="prepare.done" depends="clean" description="Prepare for build">
+        <mkdir dir="${rootdir}/build/logs"/>
+        <echo message="Current branch: ${env.GIT_BRANCH}"/>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="database" unless="database.done" description="Setting up database">
+        <exec executable="mysql">
+            <arg value="-e DROP DATABASE IF EXISTS seductive"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e DROP USER IF EXISTS 'seductive'@'localhost'"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e CREATE DATABASE IF NOT EXISTS seductive"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e CREATE USER IF NOT EXISTS 'seductive'@'localhost' IDENTIFIED BY 'seductive'"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e GRANT ALL PRIVILEGES ON seductive.* TO 'seductive'@'localhost' WITH GRANT OPTION"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET autocommit=0"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET unique_checks=0"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET foreign_key_checks=0"/>
+        </exec>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="mysql seductive &lt; ${rootdir}/dump.sql"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e COMMIT"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET unique_checks=1"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET foreign_key_checks=1"/>
+        </exec>
+        <property name="database.done" value="true"/>
+    </target>
+
+    <target name="prepare-wordpress" description="Prepare Symfony">
+        <exec executable="cp">
+            <arg value="-f"></arg>
+            <arg value="${rootdir}/www/wp-config.test.php"/>
+            <arg value="${rootdir}/www/wp-config.php"></arg>
+        </exec>
+        <exec executable="mkdir">
+            <arg value="-p"></arg>
+            <arg value="${failsdir}"></arg>
+        </exec>
+        <exec executable="mkdir">
+            <arg value="-p"></arg>
+            <arg value="${rootdir}/www/wp-content/uploads"></arg>
+        </exec>
+        <exec executable="chmod">
+            <arg value="-R"></arg>
+            <arg value="0777"></arg>
+            <arg value="${rootdir}/www/wp-content/uploads"></arg>
+        </exec>
+        <property name="prepare-wordpress.done" value="true"/>
+    </target>
+
+    <target name="composer" unless="composer.done" description="Installing dependencies via composer">
+        <exec executable="${composer}">
+            <arg value="install"/>
+            <arg value="--no-interaction"/>
+        </exec>
+        <property name="composer.done" value="true"/>
+    </target>
+
+    <target name="npm-init" unless="npm-init.done">
+        <exec executable="${npm}">
+            <arg value="install"/>
+            <arg value="--no-interaction"/>
+        </exec>
+        <property name="npm-init.done" value="true"/>
+    </target>
+
+    <target name="if.dev.branch">
+        <condition property="is.dev.branch">
+            <matches pattern="origin/dev" string="${env.GIT_BRANCH}"/>
+        </condition>
+    </target>
+
+    <target name="if.test.branch">
+        <condition property="is.test.branch">
+            <matches pattern="origin/test" string="${env.GIT_BRANCH}"/>
+        </condition>
+    </target>
+
+    <target name="csslint" description="Run the CSSLint tool on CSS files">
+        <fileset dir="${rootdir}/www/" id="cssfiles.raw">
+            <include name="**/*.css"/>
+            <exclude name="**/*.min.css"/>
+        </fileset>
+        <pathconvert pathsep=" " property="cssfiles.clean" refid="cssfiles.raw"/>
+        <exec executable="${csslint}" output="${rootdir}/build/logs/csslint.xml">
+            <arg line="--warnings=box-model,floats --errors=ids,important --format=lint-xml ${cssfiles.clean}"/>
+        </exec>
+    </target>
+
+    <target name="lesshint" description="Run the LessHint tool on LESS files">
+        <exec executable="${lesshint}" output="${rootdir}/build/logs/lesshint.xml">
+            <arg line="--reporter lesshint-lint-xml-reporter ${codebase}"/>
+        </exec>
+    </target>
+
+    <target name="jshint" description="Run the JSHint tool on JavaScript files">
+        <fileset dir="${codebase}" id="jsfiles.raw">
+            <include name="**/*.js"/>
+            <exclude name="**/*.min.js"/>
+        </fileset>
+        <pathconvert pathsep=" " property="jsfiles.clean" refid="jsfiles.raw"/>
+        <exec executable="${jshint}" output="${buildoutputdir}/jshint.xml">
+            <arg line="--reporter=jslint ${jsfiles.clean}"/>
+        </exec>
+    </target>
+</project>

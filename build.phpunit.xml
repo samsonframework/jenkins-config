@@ -1,0 +1,32 @@
+<project name="behat">
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/>
+
+    <target name="prepare">
+        <delete dir="${builddir}/coverage"/>
+        <mkdir dir="${builddir}/coverage"/>
+    </target>
+
+    <target name="execute"
+            depends="prepare"
+            unless="execute.done"
+            description="Run unit tests with PHPUnit">
+        <exec executable="${phpunit}" resultproperty="result.phpunit">
+            <arg value="--configuration"/>
+            <arg path="${builddir}/phpunit.xml"/>
+        </exec>
+        <property name="execute.done" value="true"/>
+    </target>
+
+    <target name="execute-no-coverage"
+            depends="prepare"
+            unless="execute.done"
+            description="Run unit tests with PHPUnit (without generating code coverage reports)">
+        <exec executable="${phpunit}" failonerror="true">
+            <arg value="--configuration"/>
+            <arg path="${builddir}/phpunit.xml"/>
+            <arg value="--no-coverage"/>
+        </exec>
+        <property name="execute.done" value="true"/>
+    </target>
+</project>

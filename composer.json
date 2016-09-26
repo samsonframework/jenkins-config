@@ -1,0 +1,18 @@
+{
+
+  "require-dev": {
+    "deployer/deployer": "^3.2",
+    "behat/behat": "~3.0@stable",
+    "behat/mink-extension": "~2.0",
+    "behat/mink-selenium2-driver": "@stable",
+    "behat/mink-browserkit-driver": "~1.2",
+    "phpunit/phpunit": "5.*",
+    "theseer/phpdox": "*",
+    "phpmetrics/phpmetrics": "*",
+    "phpmd/phpmd": "*",
+    "pdepend/pdepend": "*",
+    "sebastian/phpcpd": "*",
+    "squizlabs/php_codesniffer": "*",
+    "phploc/phploc": "*"
+  }
+}

@@ -1,0 +1,21 @@
+<project name="phplint">
+    <property name="codebase" value="${basedir}/src/"/>
+    <property name="phplint" value="php"/>
+
+    <target name="phplint"
+            unless="phplint.done"
+            description="Perform syntax check of sourcecode files">
+        <apply executable="php">
+            <arg value="-l"/>
+            <fileset dir="${codebase}">
+                <include name="**/*.php"/>
+                <modified/>
+            </fileset>
+            <!--<fileset dir="${rootdir}tests">-->
+            <!--<include name="**/*.php"/>-->
+            <!--<modified/>-->
+            <!--</fileset>-->
+        </apply>
+        <property name="phplint.done" value="true"/>
+    </target>
+</project>

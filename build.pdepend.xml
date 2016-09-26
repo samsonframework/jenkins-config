@@ -1,0 +1,21 @@
+<project name="pdepend">
+    <property name="codebase" value="${basedir}/src/"/>
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="pdepend" value="${basedir}/vendor/bin/pdepend"/>
+
+    <target name="pdepend"
+            unless="pdepend.done"
+            if="is.test.branch"
+            description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
+        <delete dir="${builddir}/pdepend"/>
+        <mkdir dir="${builddir}/pdepend"/>
+        <exec executable="${pdepend}">
+            <arg value="--jdepend-xml=${buildoutputdir}/jdepend.xml"/>
+            <arg value="--jdepend-chart=${buildoutputdir}/pdepend_dependencies.svg"/>
+            <arg value="--overview-pyramid=${buildoutputdir}/pdepend_overview-pyramid.svg"/>
+            <arg path="${codebase}"/>
+        </exec>
+        <property name="pdepend.done" value="true"/>
+    </target>
+</project>

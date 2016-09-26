@@ -1,0 +1,30 @@
+<project name="phppmd">
+    <property name="codebase" value="/src/"/>
+    <property name="builddir" value="/build/"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="phpmd" value="${basedir}/vendor/bin/phpmd"/>
+
+    <target name="phpmd"
+            unless="phpmd.done"
+            description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="${phpmd}">
+            <arg path="${codebase}"/>
+            <arg value="text"/>
+            <arg path="${builddir}/phpmd.xml"/>
+        </exec>
+        <property name="phpmd.done" value="true"/>
+    </target>
+
+    <target name="phpmd-ci"
+            unless="phpmd.done"
+            description="Perform project mess detection using PHPMD and log result in XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${phpmd}">
+            <arg path="${codebase}"/>
+            <arg value="xml"/>
+            <arg path="${builddir}/phpmd.xml"/>
+            <arg value="--reportfile"/>
+            <arg path="${buildoutputdir}/pmd.xml"/>
+        </exec>
+        <property name="phpmd.done" value="true"/>
+    </target>
+</project>

@@ -1,0 +1,17 @@
+<project name="phpmetrics">
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="phpmetrics" value="${basedir}/vendor/bin/phpmetrics"/>
+
+    <target name="execute"
+            unless="execute.done"
+            description="Gathering phpMetircs">
+        <exec executable="${phpmetrics}">
+            <!--<arg value="&#45;&#45;plugins=./vendor/phpmetrics/symfony-extension/SymfonyExtension.php"/>-->
+            <arg value="--report-html=${buildoutputdir}/phpmetrics.html"/>
+            <arg value="--report-xml=${buildoutputdir}/phpmetrics.xml"/>
+            <arg value="--violations-xml=${builddir}/violations.xml"/>
+            <arg value="${codebase}"/>
+        </exec>
+        <property name="execute.done" value="true"/>
+    </target>
+</project>
