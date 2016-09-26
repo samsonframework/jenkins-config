@@ -50,23 +50,6 @@
             description="Performs static analysis"
     />
 
-    <!-- Adjust the threadCount attribute's value to the number of CPUs -->
-    <target name="static-analysis-parallel" description="Performs static analysis (executing the tools in parallel)">
-        <parallel threadCount="4">
-            <sequential>
-                <antcall target="pdepend.pdepend"/>
-                <antcall target="pmd.phpmd-ci"/>
-            </sequential>
-            <antcall target="phplint.phplint"/>
-            <antcall target="lesshint"/>
-            <antcall target="jshint"/>
-            <antcall target="csshint"/>
-            <antcall target="phpcpd.phpcpd-ci"/>
-            <antcall target="phpcs.phpcs-ci"/>
-            <antcall target="phploc.phploc-ci"/>
-        </parallel>
-    </target>
-
     <target name="clean" unless="clean.done" description="Cleanup build artifacts">
         <delete dir="${buildoutputdir}"/>
         <property name="clean.done" value="true"/>
