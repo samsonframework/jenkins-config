@@ -33,10 +33,10 @@
     <include file="build.phpmetrics.xml" as="phpmetrics"/>
     <include file="build.phpdox.xml" as="phpdox"/>
     <include file="build.phpunit.xml" as="phpunit"/>
-    <include file="build.deployer.xml" as="phpunit"/>
+    <include file="build.deployer.xml" as="deployer"/>
 
     <target name="full-build"
-            depends="prepare,clean,database,prepare-wordpress,composer,npm-init,static-analysis,phpunit.execute,behat.execute,deployer.execute"
+            depends="prepare,clean,database,prepare-wordpress,npm-init,static-analysis,phpunit.execute,behat.execute,deployer.execute"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
 
     <target name="static-analysis"
@@ -124,17 +124,10 @@
         <property name="prepare-wordpress.done" value="true"/>
     </target>
 
-    <target name="composer" unless="composer.done" description="Installing dependencies via composer">
-        <exec executable="${composer}">
-            <arg value="install"/>
-            <arg value="--no-interaction"/>
-        </exec>
-        <property name="composer.done" value="true"/>
-    </target>
-
     <target name="npm-init" unless="npm-init.done">
         <exec executable="${npm}">
             <arg value="install"/>
+            <arg value="jshint"/>
             <arg value="--no-interaction"/>
         </exec>
         <property name="npm-init.done" value="true"/>
@@ -166,17 +159,6 @@
     <target name="lesshint" description="Run the LessHint tool on LESS files">
         <exec executable="${lesshint}" output="${rootdir}/build/logs/lesshint.xml">
             <arg line="--reporter lesshint-lint-xml-reporter ${codebase}"/>
-        </exec>
-    </target>
-
-    <target name="jshint" description="Run the JSHint tool on JavaScript files">
-        <fileset dir="${codebase}" id="jsfiles.raw">
-            <include name="**/*.js"/>
-            <exclude name="**/*.min.js"/>
-        </fileset>
-        <pathconvert pathsep=" " property="jsfiles.clean" refid="jsfiles.raw"/>
-        <exec executable="${jshint}" output="${buildoutputdir}/jshint.xml">
-            <arg line="--reporter=jslint ${jsfiles.clean}"/>
         </exec>
     </target>
 </project>

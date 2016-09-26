@@ -1,4 +1,4 @@
-<project name="behat">
+<project name="phpunit">
     <property name="builddir" value="${basedir}/build/"/>
     <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/>
 

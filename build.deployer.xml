@@ -1,6 +1,5 @@
 <project name="deployer">
-    <property name="builddir" value="${basedir}/build/"/>
-    <property name="deployer" value="${basedir}/vendor/bin/behat"/>
+    <property name="deployer" value="${basedir}/vendor/bin/deployer"/>
 
     <target name="execute"
             unless="execute.done"

@@ -1,0 +1,29 @@
+<project name="jshint">
+    <property name="codebase" value="${basedir}/src/"/>
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="jshint" value="${basedir}/vendor/bin/jshint"/>
+
+    <target name="prepare">
+        <exec executable="${npm}">
+            <arg value="install"/>
+            <arg value="jshint"/>
+            <arg value="--no-interaction"/>
+        </exec>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="execute"
+            depends="prepare"
+            description="Run the JSHint tool on JavaScript files">
+        <fileset dir="${codebase}" id="jsfiles.raw">
+            <include name="**/*.js"/>
+            <exclude name="**/*.min.js"/>
+        </fileset>
+        <pathconvert pathsep=" " property="jsfiles.clean" refid="jsfiles.raw"/>
+        <exec executable="${jshint}" output="${buildoutputdir}/jshint.xml">
+            <arg line="--reporter=jslint ${jsfiles.clean}"/>
+        </exec>
+        <property name="execute.done" value="true"/>
+    </target>
+</project>
