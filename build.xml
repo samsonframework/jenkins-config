@@ -35,6 +35,8 @@
     <include file="build.phpunit.xml" as="phpunit"/>
     <include file="build.deployer.xml" as="deployer"/>
     <include file="build.jshint.xml" as="jshint"/>
+    <include file="build.lesshint.xml" as="lesshint"/>
+    <include file="build.csslint.xml" as="csslint"/>
 
     <target name="full-build"
             depends="prepare,clean,database,prepare-wordpress,static-analysis,phpunit.execute,behat.execute,deployer.execute"
@@ -48,7 +50,9 @@
             phpmd.phpmd-ci,
             phpcs.phpcs-ci,
             phpcpd.phpcpd-ci,
-            jshint.execute"
+            jshint.execute,
+            lesshint.execute,
+            csslint.execute"
             description="Performs static analysis"
     />
 
@@ -136,12 +140,5 @@
         <condition property="is.test.branch">
             <matches pattern="origin/test" string="${env.GIT_BRANCH}"/>
         </condition>
-    </target>
-
-
-    <target name="lesshint" description="Run the LessHint tool on LESS files">
-        <exec executable="${lesshint}" output="${rootdir}/build/logs/lesshint.xml">
-            <arg line="--reporter lesshint-lint-xml-reporter ${codebase}"/>
-        </exec>
     </target>
 </project>
