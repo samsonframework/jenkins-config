@@ -1,0 +1,29 @@
+<project name="csshint">
+    <property name="codebase" value="${basedir}/src/"/>
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="csshint" value="${basedir}/vendor/bin/csshint"/>
+
+    <target name="prepare">
+        <exec executable="${npm}">
+            <arg value="install"/>
+            <arg value="csslint"/>
+            <arg value="--no-interaction"/>
+        </exec>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="execute"
+            depends="prepare"
+            description="Run the CSS linter tool">
+        <fileset dir="${codebase}" id="cssfiles.raw">
+            <include name="**/*.css"/>
+            <exclude name="**/*.min.css"/>
+        </fileset>
+        <pathconvert pathsep=" " property="cssfiles.clean" refid="cssfiles.raw"/>
+        <exec executable="${csslint}" output="${buildoutputdir}/csslint.xml">
+            <arg line="--warnings=box-model,floats --errors=ids,important --format=lint-xml ${cssfiles.clean}"/>
+        </exec>
+        <property name="execute.done" value="true"/>
+    </target>
+</project>

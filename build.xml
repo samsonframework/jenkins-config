@@ -138,16 +138,6 @@
         </condition>
     </target>
 
-    <target name="csslint" description="Run the CSSLint tool on CSS files">
-        <fileset dir="${rootdir}/www/" id="cssfiles.raw">
-            <include name="**/*.css"/>
-            <exclude name="**/*.min.css"/>
-        </fileset>
-        <pathconvert pathsep=" " property="cssfiles.clean" refid="cssfiles.raw"/>
-        <exec executable="${csslint}" output="${rootdir}/build/logs/csslint.xml">
-            <arg line="--warnings=box-model,floats --errors=ids,important --format=lint-xml ${cssfiles.clean}"/>
-        </exec>
-    </target>
 
     <target name="lesshint" description="Run the LessHint tool on LESS files">
         <exec executable="${lesshint}" output="${rootdir}/build/logs/lesshint.xml">
