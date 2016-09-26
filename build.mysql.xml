@@ -1,0 +1,46 @@
+<project name="mysql">
+    <property name="database" value="test"/>
+    <property name="dump" value="${basedir}/dump.sql"/>
+    <property name="mysql" value="mysql"/>
+
+    <target name="import-dump" unless="import-dump.done" description="Setting up database">
+        <exec executable="mysql">
+            <arg value="-e DROP DATABASE IF EXISTS ${database}"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e DROP USER IF EXISTS '${database}'@'localhost'"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e CREATE DATABASE IF NOT EXISTS ${database}"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e CREATE USER IF NOT EXISTS '${database}'@'localhost' IDENTIFIED BY '${database}'"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e GRANT ALL PRIVILEGES ON ${database}.* TO '${database}'@'localhost' WITH GRANT OPTION"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET autocommit=0"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET unique_checks=0"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET foreign_key_checks=0"/>
+        </exec>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="${mysql} ${database} &lt; ${dump}"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e COMMIT"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET unique_checks=1"/>
+        </exec>
+        <exec executable="mysql">
+            <arg value="-e SET foreign_key_checks=1"/>
+        </exec>
+        <property name="import-dump.done" value="true"/>
+    </target>
+</project>

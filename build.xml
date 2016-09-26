@@ -37,9 +37,10 @@
     <include file="build.jshint.xml" as="jshint"/>
     <include file="build.lesshint.xml" as="lesshint"/>
     <include file="build.csslint.xml" as="csslint"/>
+    <include file="build.mysql.xml" as="mysql"/>
 
     <target name="full-build"
-            depends="prepare,clean,database,prepare-wordpress,static-analysis,phpunit.execute,behat.execute,deployer.execute"
+            depends="prepare,clean,mysql.import-dump,prepare-wordpress,static-analysis,phpunit.execute,behat.execute,deployer.execute"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
 
     <target name="static-analysis"
@@ -65,47 +66,6 @@
         <mkdir dir="${rootdir}/build/logs"/>
         <echo message="Current branch: ${env.GIT_BRANCH}"/>
         <property name="prepare.done" value="true"/>
-    </target>
-
-    <target name="database" unless="database.done" description="Setting up database">
-        <exec executable="mysql">
-            <arg value="-e DROP DATABASE IF EXISTS seductive"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e DROP USER IF EXISTS 'seductive'@'localhost'"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e CREATE DATABASE IF NOT EXISTS seductive"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e CREATE USER IF NOT EXISTS 'seductive'@'localhost' IDENTIFIED BY 'seductive'"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e GRANT ALL PRIVILEGES ON seductive.* TO 'seductive'@'localhost' WITH GRANT OPTION"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e SET autocommit=0"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e SET unique_checks=0"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e SET foreign_key_checks=0"/>
-        </exec>
-        <exec executable="bash">
-            <arg value="-c"/>
-            <arg value="mysql seductive &lt; ${rootdir}/dump.sql"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e COMMIT"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e SET unique_checks=1"/>
-        </exec>
-        <exec executable="mysql">
-            <arg value="-e SET foreign_key_checks=1"/>
-        </exec>
-        <property name="database.done" value="true"/>
     </target>
 
     <target name="prepare-wordpress" description="Prepare Symfony">
