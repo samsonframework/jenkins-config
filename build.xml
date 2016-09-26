@@ -66,7 +66,6 @@
         <echo message="Create screenshots folder"/>
         <mkdir dir="${failsdir}"/>
         <chmod perm="777" dir="${failsdir}" type="dir" includes="**"/>
-
     </target>
 
     <target name="if.dev.branch">
