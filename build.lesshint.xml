@@ -1,0 +1,29 @@
+<project name="lesshint">
+    <property name="codebase" value="${basedir}/src/"/>
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="lesshint" value="${basedir}/vendor/bin/lesshint"/>
+
+    <target name="prepare">
+        <exec executable="${npm}">
+            <arg value="install"/>
+            <arg value="lesshint"/>
+            <arg value="--no-interaction"/>
+        </exec>
+        <exec executable="${npm}">
+            <arg value="install"/>
+            <arg value="lesshint-lint-xml-reporter"/>
+            <arg value="--no-interaction"/>
+        </exec>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="execute"
+            depends="prepare"
+            description="Run the LessHint tool on less files">
+        <exec executable="${lesshint}" output="${buildoutputdir}/lesshint.xml">
+            <arg line="--reporter lesshint-lint-xml-reporter ${codebase}"/>
+        </exec>
+        <property name="execute.done" value="true"/>
+    </target>
+</project>
