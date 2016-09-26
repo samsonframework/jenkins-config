@@ -1,0 +1,28 @@
+<project name="Seductive Mobile" default="composer">
+    <!-- Project configuration -->
+    <property name="composer" value="composer"/>
+    <property name="codebase" value="${basedir}/www/wp-content/themes/seductive"/>
+
+    <!-- MySQL configuration -->
+    <property name="mysql.database" value="seductive"/>
+    <property name="mysql.username" value="seductive"/>
+    <property name="mysql.password" value="seductive"/>
+    <property name="dump" value="${basedir}/dump.sql"/>
+
+    <!-- Behat configuration -->
+    <property name="configuration" value="behat.chrome.yml"/>
+    <property name="profile" value="jenkins"/>
+
+    <target name="composer" description="Installing dependencies via composer">
+        <exec executable="${composer}">
+            <arg value="update"/>
+            <arg value="--no-interaction"/>
+        </exec>
+
+        <!-- Import wordpress builder -->
+        <ant antfile="vendor/samsonframework/jenkins-config/build.wordpress.xml" target="prepare"/>
+
+        <!-- Include generic builder -->
+        <ant antfile="vendor/samsonframework/jenkins-config/build.xml" target="full-build"/>
+    </target>
+</project>

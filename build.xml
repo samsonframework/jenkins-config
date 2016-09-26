@@ -17,11 +17,6 @@
     <property name="jshint" value="${nodedir}/jshint"/>
     <property name="lesshint" value="${nodedir}/lesshint"/>
 
-    <!-- Behat configuration -->
-    <!--<property name="behat" value="${basedir}/vendor/bin/behat"/>-->
-    <!--<property name="configuration" value="behat.chrome.yml"/>-->
-    <!--<property name="profile" value="jenkins"/>-->
-
     <!-- Including building tools targets -->
     <include file="build.behat.xml" as="behat"/>
     <include file="build.phpmd.xml" as="phpmd"/>
@@ -40,7 +35,13 @@
     <include file="build.mysql.xml" as="mysql"/>
 
     <target name="full-build"
-            depends="clean,mysql.import-dump,static-analysis,phpunit.execute,behat.execute,deployer.execute"
+            depends="
+            clean,
+            mysql.import-dump,
+            static-analysis,
+            phpunit.execute,
+            behat.execute,
+            deployer.execute"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
 
     <target name="static-analysis"
@@ -66,15 +67,9 @@
         <echo message="Create screenshots folder"/>
         <mkdir dir="${failsdir}"/>
         <chmod perm="777" dir="${failsdir}" type="dir" includes="**"/>
-        <copy file="vendor/samsonframework/jenkins-config/package.json" tofile="package.json" />
-    </target>
 
-    <target name="npm.init" description="Initialize NodeJS NPM">
-        <echo message="Initializing NodeJS dependencies"/>
-        <exec executable="npm">
-            <arg value="init"></arg>
-            <arg value="--save"/>
-        </exec>
+        <echo message="Create project package.json to avoid errors with NPM"/>
+        <copy file="vendor/samsonframework/jenkins-config/package.json" tofile="package.json" />
     </target>
 
     <target name="if.dev.branch">
