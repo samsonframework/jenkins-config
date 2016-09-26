@@ -2,9 +2,7 @@
     <property name="codebase" value="${basedir}/src/"/>
     <property name="phplint" value="php"/>
 
-    <target name="phplint"
-            unless="phplint.done"
-            description="Perform syntax check of sourcecode files">
+    <target name="execute" description="Perform syntax check of sourcecode files">
         <apply executable="php">
             <arg value="-l"/>
             <fileset dir="${codebase}">
@@ -16,6 +14,5 @@
             <!--<modified/>-->
             <!--</fileset>-->
         </apply>
-        <property name="phplint.done" value="true"/>
     </target>
 </project>

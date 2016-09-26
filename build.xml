@@ -40,17 +40,17 @@
     <include file="build.mysql.xml" as="mysql"/>
 
     <target name="full-build"
-            depends="prepare,clean,mysql.import-dump,prepare-wordpress,static-analysis,phpunit.execute,behat.execute,deployer.execute"
+            depends="clean,mysql.import-dump,prepare-wordpress,static-analysis,phpunit.execute,behat.execute,deployer.execute"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
 
     <target name="static-analysis"
             depends="
-            phplint.phplint,
-            phploc.phploc-ci,
-            pdepend.pdepend,
-            phpmd.phpmd-ci,
-            phpcs.phpcs-ci,
-            phpcpd.phpcpd-ci,
+            phplint.execute,
+            phploc.execute,
+            pdepend.execute,
+            phpmd.execute,
+            phpcs.execute,
+            phpcpd.execute,
             jshint.execute,
             lesshint.execute,
             csslint.execute"
@@ -59,13 +59,9 @@
 
     <target name="clean" unless="clean.done" description="Cleanup build artifacts">
         <delete dir="${buildoutputdir}"/>
-        <property name="clean.done" value="true"/>
-    </target>
-
-    <target name="prepare" unless="prepare.done" depends="clean" description="Prepare for build">
-        <mkdir dir="${rootdir}/build/logs"/>
+        <mkdir dir="${buildoutputdir}"/>
         <echo message="Current branch: ${env.GIT_BRANCH}"/>
-        <property name="prepare.done" value="true"/>
+        <property name="clean.done" value="true"/>
     </target>
 
     <target name="prepare-wordpress" description="Prepare Symfony">

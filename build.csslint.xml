@@ -24,6 +24,5 @@
         <exec executable="${csslint}" output="${buildoutputdir}/csslint.xml">
             <arg line="--warnings=box-model,floats --errors=ids,important --format=lint-xml ${cssfiles.clean}"/>
         </exec>
-        <property name="execute.done" value="true"/>
     </target>
 </project>

@@ -4,9 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="pdepend" value="${basedir}/vendor/bin/pdepend"/>
 
-    <target name="pdepend"
-            unless="pdepend.done"
-            if="is.test.branch"
+    <target name="execute"
             description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
         <delete dir="${builddir}/pdepend"/>
         <mkdir dir="${builddir}/pdepend"/>
@@ -16,6 +14,5 @@
             <arg value="--overview-pyramid=${buildoutputdir}/pdepend_overview-pyramid.svg"/>
             <arg path="${codebase}"/>
         </exec>
-        <property name="pdepend.done" value="true"/>
     </target>
 </project>

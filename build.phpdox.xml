@@ -3,15 +3,12 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phpdox" value="${basedir}/vendor/bin/phpdox"/>
 
-    <target name="execute"
-            unless="execute.done"
-            description="Generate project documentation using phpDox">
+    <target name="execute" description="Generate project documentation using phpDox">
         <delete dir="${builddir}/phpdox"/>
         <mkdir dir="${builddir}/phpdox"/>
         <exec executable="${phpdox}" dir="${buildoutputdir}">
             <arg value="-f"/>
             <arg value="${builddir}/phpdox.xml"/>
         </exec>
-        <property name="phpdox.done" value="true"/>
     </target>
 </project>

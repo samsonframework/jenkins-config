@@ -4,9 +4,7 @@
     <property name="configuration" value="behat.chrome.yml"/>
     <property name="profile" value="jenkins"/>
 
-    <target name="execute"
-            unless="execute.done"
-            description="Running Behat tests">
+    <target name="execute" description="Running Behat tests">
         <exec executable="${behat}" failonerror="true">
             <arg value="-c"/>
             <arg value="${configuration}"/>
@@ -16,6 +14,5 @@
         <move todir="${failsdir}">
             <fileset dir="${basedir}" includes="Fail*.jpg"/>
         </move>
-        <property name="execute.done" value="true"/>
     </target>
 </project>

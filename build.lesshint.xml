@@ -24,6 +24,5 @@
         <exec executable="${lesshint}" output="${buildoutputdir}/lesshint.xml">
             <arg line="--reporter lesshint-lint-xml-reporter ${codebase}"/>
         </exec>
-        <property name="execute.done" value="true"/>
     </target>
 </project>

@@ -4,21 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phpcs" value="${basedir}/vendor/bin/phpcs"/>
 
-    <target name="phpcs"
-            unless="phpcs.done"
-            description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="${phpcs}">
-            <arg value="--standard=PSR2"/>
-            <arg value="--extensions=php"/>
-            <arg value="--ignore=autoload.php"/>
-            <arg path="${codebase}"/>
-        </exec>
-        <property name="phpcs.done" value="true"/>
-    </target>
-
-    <target name="phpcs-ci"
-            unless="phpcs.done"
-            description="Find coding standard violations using PHP_CodeSniffer and log result in XML format. Intended for usage within a continuous integration environment.">
+    <target name="execute" description="Find coding standard violations using PHP_CodeSniffer and log result in XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phpcs}" output="/dev/null">
             <arg value="--report=checkstyle"/>
             <arg value="--report-file=${buildoutputdir}/checkstyle.xml"/>
@@ -27,6 +13,5 @@
             <arg value="--ignore=autoload.php"/>
             <arg path="${codebase}"/>
         </exec>
-        <property name="phpcs.done" value="true"/>
     </target>
 </project>

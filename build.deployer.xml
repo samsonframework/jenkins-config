@@ -2,13 +2,11 @@
     <property name="deployer" value="${basedir}/vendor/bin/deployer"/>
 
     <target name="execute"
-            unless="execute.done"
             description="Deploying project"
             >
         <exec executable="${deployer}">
             <arg value="deploy"/>
             <arg value="test"/>
         </exec>
-        <property name="execute.done" value="true"/>
     </target>
 </project>

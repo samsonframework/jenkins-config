@@ -4,23 +4,12 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phpcpd" value="${basedir}/vendor/bin/phpcpd"/>
 
-    <target name="phpcpd"
-            unless="phpcpd.done"
-            description="Find duplicate code using PHPCPD and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="${phpcpd}">
-            <arg path="${codebase}"/>
-        </exec>
-        <property name="phpcpd.done" value="true"/>
-    </target>
-
-    <target name="phpcpd-ci"
-            unless="phpcpd.done"
+    <target name="execute"
             description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phpcpd}">
             <arg value="--log-pmd"/>
             <arg path="${buildoutputdir}/pmd-cpd.xml"/>
             <arg path="${codebase}"/>
         </exec>
-        <property name="phpcpd.done" value="true"/>
     </target>
 </project>

@@ -24,6 +24,5 @@
         <exec executable="${jshint}" output="${buildoutputdir}/jshint.xml">
             <arg line="--reporter=jslint ${jsfiles.clean}"/>
         </exec>
-        <property name="execute.done" value="true"/>
     </target>
 </project>

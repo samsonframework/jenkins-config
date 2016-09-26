@@ -4,20 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phploc" value="${basedir}/vendor/bin/phploc"/>
 
-    <target name="phploc"
-            unless="phploc.done"
-            description="Measure project size using PHPLOC and print human readable output. Intended for usage on the command line.">
-        <exec executable="${phploc}">
-            <arg value="--count-tests"/>
-            <arg path="${codebase}"/>
-            <arg path="${rootdir}/tests"/>
-        </exec>
-        <property name="phploc.done" value="true"/>
-    </target>
-
-    <target name="phploc-ci"
-            unless="phploc.done"
-            description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
+    <target name="execute" description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phploc}">
             <arg value="--count-tests"/>
             <arg value="--log-xml"/>
@@ -25,6 +12,5 @@
             <arg path="${codebase}"/>
             <!--<arg path="${rootdir}tests"/>-->
         </exec>
-        <property name="phploc.done" value="true"/>
     </target>
 </project>
