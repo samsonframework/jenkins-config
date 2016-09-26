@@ -34,9 +34,10 @@
     <include file="build.phpdox.xml" as="phpdox"/>
     <include file="build.phpunit.xml" as="phpunit"/>
     <include file="build.deployer.xml" as="deployer"/>
+    <include file="build.jshint.xml" as="jshint"/>
 
     <target name="full-build"
-            depends="prepare,clean,database,prepare-wordpress,npm-init,static-analysis,phpunit.execute,behat.execute,deployer.execute"
+            depends="prepare,clean,database,prepare-wordpress,static-analysis,phpunit.execute,behat.execute,deployer.execute"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
 
     <target name="static-analysis"
@@ -46,7 +47,8 @@
             pdepend.pdepend,
             phpmd.phpmd-ci,
             phpcs.phpcs-ci,
-            phpcpd.phpcpd-ci"
+            phpcpd.phpcpd-ci,
+            jshint.execute"
             description="Performs static analysis"
     />
 
@@ -122,15 +124,6 @@
             <arg value="${rootdir}/www/wp-content/uploads"></arg>
         </exec>
         <property name="prepare-wordpress.done" value="true"/>
-    </target>
-
-    <target name="npm-init" unless="npm-init.done">
-        <exec executable="${npm}">
-            <arg value="install"/>
-            <arg value="jshint"/>
-            <arg value="--no-interaction"/>
-        </exec>
-        <property name="npm-init.done" value="true"/>
     </target>
 
     <target name="if.dev.branch">
