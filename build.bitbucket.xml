@@ -1,0 +1,36 @@
+<project name="bitbucket">
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="reporter" value="${basedir}/vendor/bin/bitbucket"/>
+    <property name="bitbucket.username" value="test"/>
+    <property name="bitbucket.password" value="test"/>
+    <property name="bitbucket.account" value="test"/>
+    <property name="bitbucket.repository" value="test"/>
+    <property name="bitbucket.pmd" value="${buildoutputdir}/pmd.xml"/>
+
+    <target name="execute"
+            unless="
+            bitbucket.username,
+            bitbucket.password,
+            bitbucket.account,
+            bitbucket.repository,
+            bitbucket.pullid,
+            bitbucket.pmd
+            "
+            description="Comment violations on BitBucket">
+        <exec executable="${reporter}">
+            <arg value="--username"/>
+            <arg value="${bitbucket.username}"/>
+            <arg value="--password"/>
+            <arg value="${bitbucket.password}"/>
+            <arg value="--account"/>
+            <arg value="${bitbucket.account}"/>
+            <arg value="--repo"/>
+            <arg value="${bitbucket.repository}"/>
+            <arg value="--pull"/>
+            <arg value="${bitbucket.pullid}"/>
+            <arg value="--md"/>
+            <arg path="${bitbucket.pmd}"/>
+        </exec>
+    </target>
+</project>
