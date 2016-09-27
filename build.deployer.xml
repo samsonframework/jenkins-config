@@ -10,6 +10,7 @@
 
     <target name="execute"
             description="Deploying project"
+            depends="is.deployer.branch"
             if="is.deployer.branch"
             >
         <exec executable="${deployer}">
