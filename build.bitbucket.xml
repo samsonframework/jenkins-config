@@ -6,6 +6,7 @@
     <property name="bitbucket.password" value="test"/>
     <property name="bitbucket.account" value="test"/>
     <property name="bitbucket.repository" value="test"/>
+    <property name="bitbucket.pullid" value="${PULL_REQUEST_ID}"/>
     <property name="bitbucket.pmd" value="${buildoutputdir}/pmd.xml"/>
 
     <target name="bitbucket.execute"
