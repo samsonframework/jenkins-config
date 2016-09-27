@@ -3,7 +3,7 @@
     <property name="deployer.branch" value="dev"/>
     
     <target name="is.deployer.branch">
-        <condition property="is.dev.branch">
+        <condition property="is.deployer.branch">
             <matches pattern="origin/${deployer.branch}" string="${env.GIT_BRANCH}"/>
         </condition>
     </target>
