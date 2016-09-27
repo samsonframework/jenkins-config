@@ -14,6 +14,7 @@
     }
   ],
   "require": {
+    "samsonframework/bitbucket-reporter":"dev-master",
     "deployer/deployer": "*",
     "behat/behat": "~3.0@stable",
     "behat/mink-extension": "~2.0",
