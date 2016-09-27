@@ -9,7 +9,7 @@
     <property name="bitbucket.pmd" value="${buildoutputdir}/pmd.xml"/>
 
     <target name="execute"
-            unless="
+            if="
             bitbucket.username,
             bitbucket.password,
             bitbucket.account,
