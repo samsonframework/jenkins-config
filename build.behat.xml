@@ -2,7 +2,7 @@
     <property name="builddir" value="${basedir}/build/"/>
     <property name="behat" value="${basedir}/vendor/bin/behat"/>
 
-    <target name="execute" description="Running Behat tests" unless="configuration">
+    <target name="execute" description="Running Behat tests" if="configuration">
         <exec executable="${behat}" failonerror="true">
             <arg value="-c"/>
             <arg value="${configuration}"/>
