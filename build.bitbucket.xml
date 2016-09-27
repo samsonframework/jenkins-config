@@ -8,7 +8,7 @@
     <property name="bitbucket.repository" value="test"/>
     <property name="bitbucket.pmd" value="${buildoutputdir}/pmd.xml"/>
 
-    <target name="execute"
+    <target name="bitbucket.execute"
             if="
             bitbucket.username,
             bitbucket.password,
