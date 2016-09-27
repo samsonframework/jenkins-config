@@ -1,10 +1,8 @@
 <project name="behat">
     <property name="builddir" value="${basedir}/build/"/>
     <property name="behat" value="${basedir}/vendor/bin/behat"/>
-    <property name="configuration" value="behat.chrome.yml"/>
-    <property name="profile" value="jenkins"/>
 
-    <target name="execute" description="Running Behat tests">
+    <target name="execute" description="Running Behat tests" if="configuration">
         <exec executable="${behat}" failonerror="true">
             <arg value="-c"/>
             <arg value="${configuration}"/>
