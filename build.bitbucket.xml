@@ -19,6 +19,7 @@
             "
             description="Comment violations on BitBucket">
         <exec executable="${reporter}">
+            <arg value="-vvv"/>
             <arg value="--username"/>
             <arg value="${bitbucket.username}"/>
             <arg value="--password"/>
