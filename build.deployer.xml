@@ -1,12 +1,20 @@
 <project name="deployer">
     <property name="deployer" value="${basedir}/vendor/bin/dep"/>
+    <property name="deployer.branch" value="dev"/>
+    
+    <target name="is.deployer.branch">
+        <condition property="is.dev.branch">
+            <matches pattern="origin/${deployer.branch}" string="${env.GIT_BRANCH}"/>
+        </condition>
+    </target>
 
     <target name="execute"
             description="Deploying project"
+            if="is.deployer.branch"
             >
         <exec executable="${deployer}">
             <arg value="deploy"/>
-            <arg value="test"/>
+            <arg value="${deployer.branch}"/>
         </exec>
     </target>
 </project>
