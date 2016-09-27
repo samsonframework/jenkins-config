@@ -9,14 +9,7 @@
     <property name="bitbucket.pmd" value="${buildoutputdir}/pmd.xml"/>
 
     <target name="bitbucket.execute"
-            if="
-            bitbucket.username,
-            bitbucket.password,
-            bitbucket.account,
-            bitbucket.repository,
-            bitbucket.pullid,
-            bitbucket.pmd
-            "
+            if="bitbucket.username,bitbucket.password,bitbucket.account,bitbucket.repository,bitbucket.pullid,bitbucket.pmd"
             description="Comment violations on BitBucket">
         <exec executable="${reporter}">
             <arg value="-vvv"/>
