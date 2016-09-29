@@ -32,6 +32,15 @@
             <arg value="--no-debug"/>
         </exec>
     </target>
+    
+    <target name="assetic-dump" description="Assetic dump">
+        <exec executable="php">
+            <arg value="app/console"/>
+            <arg value="assetic:dump"/>
+            <arg value="--env=prod"/>
+            <arg value="--no-debug"/>
+        </exec>
+    </target>
 
     <target name="translations-import" description="Import translations">
         <exec executable="php">
@@ -45,7 +54,7 @@
 
     <target
         name="execute"
-        depends="prepare,migrate,cache-clear,translations-import"
+        depends="prepare,migrate,cache-clear,assetic-dump,translations-import"
         description="Running symfony commands"
     />
 
