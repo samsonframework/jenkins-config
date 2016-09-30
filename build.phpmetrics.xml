@@ -1,8 +1,15 @@
 <project name="phpmetrics">
     <property name="builddir" value="${basedir}/build/"/>
     <property name="phpmetrics" value="${basedir}/vendor/bin/phpmetrics"/>
+    <property name="phpmetrics.branch" value="dev"/>
 
-    <target name="execute" description="Gathering phpMetircs">
+    <target name="is.phpmetrics.branch">
+        <condition property="is.phpmetrics.branch">
+            <matches pattern="origin/${phpmetrics.branch}" string="${env.GIT_BRANCH}"/>
+        </condition>
+    </target>
+
+    <target name="execute" description="Gathering phpMetircs" if="is.phpmetrics.branch">
         <exec executable="${phpmetrics}">
             <!--<arg value="&#45;&#45;plugins=./vendor/phpmetrics/symfony-extension/SymfonyExtension.php"/>-->
             <arg value="--report-html=${buildoutputdir}/phpmetrics.html"/>

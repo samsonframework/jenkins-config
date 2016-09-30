@@ -2,8 +2,15 @@
     <property name="builddir" value="${basedir}/build/"/>
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phpdox" value="${basedir}/vendor/bin/phpdox"/>
+    <property name="phpdox.branch" value="dev"/>
 
-    <target name="execute" description="Generate project documentation using phpDox">
+    <target name="is.phpdox.branch">
+        <condition property="is.phpdox.branch">
+            <matches pattern="origin/${phpdox.branch}" string="${env.GIT_BRANCH}"/>
+        </condition>
+    </target>
+
+    <target name="execute" description="Generate project documentation using phpDox" if="is.phpdox.branch">
         <delete dir="${builddir}/phpdox"/>
         <mkdir dir="${builddir}/phpdox"/>
         <exec executable="${phpdox}" dir="${buildoutputdir}">
