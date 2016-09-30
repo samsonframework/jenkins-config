@@ -3,7 +3,7 @@
     <property name="failsdir" value="${builddir}/fails"/>
     <property name="buildoutputdir" value="${builddir}/logs"/>
 
-    <target name="clean" description="Cleanup build artifacts">
+    <target name="execute" description="Cleanup build artifacts">
         <echo message="Current branch: ${env.GIT_BRANCH}"/>
 
         <delete dir="${buildoutputdir}"/>
