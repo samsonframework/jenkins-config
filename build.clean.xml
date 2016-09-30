@@ -1,0 +1,19 @@
+<project name="clean">
+    <property name="builddir" value="${basedir}/build/"/>
+    <property name="failsdir" value="${builddir}/fails"/>
+    <property name="buildoutputdir" value="${builddir}/logs"/>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <echo message="Current branch: ${env.GIT_BRANCH}"/>
+
+        <delete dir="${buildoutputdir}"/>
+        <mkdir dir="${buildoutputdir}"/>
+
+        <echo message="Create screenshots folder"/>
+        <mkdir dir="${failsdir}"/>
+        <chmod perm="777" dir="${failsdir}" type="dir" includes="**"/>
+
+        <echo message="Create project package.json to avoid errors with NPM"/>
+        <copy file="vendor/samsonframework/jenkins-config/package.json" tofile="package.json" />
+    </target>
+</project>
