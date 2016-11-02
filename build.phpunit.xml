@@ -9,9 +9,10 @@
 
     <target name="execute"
             depends="prepare"
+            failonerror="true"
             description="Run unit tests with PHPUnit">
-        <exec executable="${phpunit}" resultproperty="result.phpunit">
-            <arg value="--configuration"/>
+        <exec executable="${phpunit}" resultproperty="result.phpunit" failonerror="true">
+            <arg value="--configuration"/> 
             <arg path="${builddir}/phpunit.xml"/>
         </exec>
     </target>
