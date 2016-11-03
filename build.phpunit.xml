@@ -9,7 +9,6 @@
 
     <target name="execute"
             depends="prepare"
-            failonerror="true"
             description="Run unit tests with PHPUnit">
         <exec executable="${phpunit}" resultproperty="result.phpunit" failonerror="true">
             <arg value="--configuration"/> 
