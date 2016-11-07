@@ -6,10 +6,15 @@
         <delete dir="${builddir}/coverage"/>
         <mkdir dir="${builddir}/coverage"/>
     </target>
+    
+    <target name="check-phpunit" depends="prepare">
+        <available file="${builddir}/phpunit.xml" property="phpunit.present"/>
+    </target>
 
     <target name="execute"
-            depends="prepare"
-            description="Run unit tests with PHPUnit">
+            depends="check-phpunit"
+            description="Run unit tests with PHPUnit"
+            if="phpunit.present">
         <exec executable="${phpunit}" resultproperty="result.phpunit" failonerror="true">
             <arg value="--configuration"/> 
             <arg path="${builddir}/phpunit.xml"/>
@@ -17,8 +22,9 @@
     </target>
 
     <target name="execute-no-coverage"
-            depends="prepare"
-            description="Run unit tests with PHPUnit (without generating code coverage reports)">
+            depends="check-phpunit"
+            description="Run unit tests with PHPUnit (without generating code coverage reports)"
+            if="phpunit.present">
         <exec executable="${phpunit}" failonerror="true">
             <arg value="--configuration"/>
             <arg path="${builddir}/phpunit.xml"/>
