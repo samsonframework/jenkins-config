@@ -3,6 +3,7 @@
     <property name="builddir" value="${basedir}/build/"/>
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="csshint" value="${basedir}/vendor/bin/csshint"/>
+    <property name="npm" value="npm"/>
 
     <target name="prepare">
         <exec executable="${npm}">
