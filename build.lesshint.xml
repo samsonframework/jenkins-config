@@ -3,6 +3,7 @@
     <property name="builddir" value="${basedir}/build/"/>
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="lesshint" value="${basedir}/vendor/bin/lesshint"/>
+    <property name="npm" value="npm"/>
 
     <target name="prepare">
         <exec executable="${npm}">
