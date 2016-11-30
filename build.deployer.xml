@@ -13,7 +13,7 @@
             depends="is.deployer.branch"
             if="is.deployer.branch"
             >
-        <exec executable="${deployer}">
+        <exec executable="${deployer}" failonerror="true">
             <arg value="deploy"/>
             <arg value="${deployer.branch}"/>
         </exec>
