@@ -1,13 +1,15 @@
 <project name="behat">
     <property name="builddir" value="${basedir}/build/"/>
     <property name="behat" value="${basedir}/vendor/bin/behat"/>
+    <property name="behat.configuration" value="behat.chrome.yml"/>
+    <property name="behat.profile" value="jenkins"/>
 
-    <target name="execute" description="Running Behat tests" if="configuration">
+    <target name="behat.execute" description="Running Behat tests" if="configuration">
         <exec executable="${behat}" failonerror="true">
             <arg value="-c"/>
-            <arg value="${configuration}"/>
+            <arg value="${behat.configuration}"/>
             <arg value="-p"/>
-            <arg value="${profile}"/>
+            <arg value="${behat.profile}"/>
         </exec>
         <move todir="${failsdir}">
             <fileset dir="${basedir}" includes="Fail*.jpg"/>
