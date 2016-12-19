@@ -1,0 +1,63 @@
+<project name="pgsql">
+    <property name="pgsql.database" value="test"/>
+    <property name="pgsql.username" value="test"/>
+    <property name="pgsql.password" value="test"/>
+    <property name="pgsql.master.username" value="postgres"/>
+    <property name="pgsql.dump.gz" value="${basedir}/dump.sql.gz"/>
+    <property name="pgsql.dump" value="${basedir}/dump.sql"/>
+    <property name="pgsql" value="psql"/>
+
+    <target name="pgsql.untar-dump" description="Untar database dump file">
+        <exec executable="gunzip">
+            <arg value="${pgsql.dump.gz}"/>
+        </exec>
+    </target>
+
+    <target name="pgsql.import-dump" description="Setting up database">
+        <exec executable="psql">
+            <arg value="-c 'DROP DATABASE IF EXISTS ${pgsql.database}'"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'DROP USER IF EXISTS ${pgsql.username}'"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'CREATE DATABASE IF NOT EXISTS \'${pgsql.database}\''"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-с 'CREATE USER IF NOT EXISTS \'${pgsql.username}\' IDENTIFIED BY \'${pgsql.password}\'"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'GRANT ALL PRIVILEGES ON ${pgsql.database}.* TO \'${pgsql.username}\' WITH GRANT OPTION"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'SET autocommit=0'"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'SET unique_checks=0'"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'SET foreign_key_checks=0'"/>
+            <arg value="-U ${pgsql.master.username}'"/>
+        </exec>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="${pgsql} -U${pgsql.master.username} ${pgsql.database} &lt; ${pgsql.dump}"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'COMMIT'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'SET unique_checks=1'"/>
+        </exec>
+        <exec executable="psql">
+            <arg value="-c 'SET foreign_key_checks=1'"/>
+        </exec>
+    </target>
+</project>
