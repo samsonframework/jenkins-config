@@ -15,23 +15,28 @@
 
     <target name="pgsql.import-dump" description="Setting up database">
         <exec executable="psql">
-            <arg value="-c 'DROP DATABASE IF EXISTS ${pgsql.database}'"/>
+            <arg value="-c"/>
+            <arg value="DROP DATABASE IF EXISTS ${pgsql.database}"/>
             <arg value="-U${pgsql.master.username}"/>
         </exec>
         <exec executable="psql">
-            <arg value="-c 'DROP ROLE IF EXISTS ${pgsql.username}'"/>
+            <arg value="-c"/>
+            <arg value="DROP ROLE IF EXISTS ${pgsql.username}"/>
             <arg value="-U${pgsql.master.username}"/>
         </exec>
         <exec executable="psql">
-            <arg value="-c 'CREATE DATABASE \'${pgsql.database}\''"/>
+            <arg value="-c"/>
+            <arg value="CREATE DATABASE ${pgsql.database}"/>
             <arg value="-U${pgsql.master.username}"/>
         </exec>
         <exec executable="psql">
-            <arg value="-с 'CREATE USER \'${pgsql.username}\' WITH PASSWORD \'${pgsql.password}\'"/>
+            <arg value="-c"/>
+            <arg value="CREATE ROLE ${pgsql.username} WITH LOGIN ENCRYPTED PASSWORD &apos;${pgsql.password}&apos;"/>
             <arg value="-U${pgsql.master.username}"/>
         </exec>
         <exec executable="psql">
-            <arg value="-c 'GRANT ALL PRIVILEGES ON ${pgsql.database} TO \'${pgsql.username}\'"/>
+            <arg value="-c"/>
+            <arg value="GRANT ALL PRIVILEGES ON ${pgsql.database} TO ${pgsql.username}"/>
             <arg value="-U${pgsql.master.username}"/>
         </exec>
         <exec executable="bash">
