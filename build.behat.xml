@@ -4,7 +4,7 @@
     <property name="behat.configuration" value="behat.chrome.yml"/>
     <property name="behat.profile" value="jenkins"/>
 
-    <target name="behat.execute" description="Running Behat tests" if="configuration">
+    <target name="behat.execute" description="Running Behat tests" if="behat.configuration">
         <exec executable="${behat}" failonerror="true">
             <arg value="-c"/>
             <arg value="${behat.configuration}"/>
