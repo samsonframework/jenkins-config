@@ -1,6 +1,7 @@
 <project name="deployer">
     <property name="deployer" value="${basedir}/vendor/bin/dep"/>
     <property name="deployer.branch" value="dev"/>
+    <property name="deployer.server" value="${deployer.branch}"/>
     
     <target name="is.deployer.branch">
         <condition property="is.deployer.branch">
@@ -15,7 +16,7 @@
             >
         <exec executable="${deployer}" failonerror="true">
             <arg value="deploy"/>
-            <arg value="${deployer.branch}"/>
+            <arg value="${deployer.server}"/>
         </exec>
     </target>
 </project>
