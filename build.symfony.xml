@@ -19,18 +19,8 @@
     </target>
 
     <target name="cache-clear" description="Clear cache">
-        <exec executable="php">
-            <arg value="app/console"/>
-            <arg value="cache:clear"/>
-            <arg value="--env=prod"/>
-            <arg value="--no-debug"/>
-        </exec>
-        <exec executable="php">
-            <arg value="app/console"/>
-            <arg value="cache:clear"/>
-            <arg value="--env=test"/>
-            <arg value="--no-debug"/>
-        </exec>
+        <delete dir="${basedir}/app/cache/prod"/>
+        <delete dir="${basedir}/app/cache/test"/>
     </target>
     
     <target name="assetic-dump" description="Assetic dump">
