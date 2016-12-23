@@ -1,7 +1,5 @@
-<project name="deployer">
-    <property name="deployer" value="${basedir}/vendor/bin/dep"/>
+<project name="shipit">
     <property name="deployer.branch" value="dev"/>
-    <property name="deployer.server" value="${deployer.branch}"/>
     
     <target name="is.deployer.branch">
         <condition property="is.deployer.branch">
