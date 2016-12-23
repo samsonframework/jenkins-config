@@ -12,6 +12,7 @@
             depends="is.deployer.branch"
             if="is.deployer.branch"
             >
+        <echo message="Shipit deploy start"/>
         <exec executable="shipit" failonerror="true" dir="www">
             <arg value="staging"/>
             <arg value="deploy"/>
