@@ -1,21 +1,23 @@
 <project name="shipit">
-    <property name="deployer.branch" value="dev"/>
+    <property name="shipit.branch" value="dev"/>
+    <property name="shipit.dir" value="www"/>
+    <property name="shipit.staging" value="deploy"/>
     
-    <target name="is.deployer.branch">
-        <condition property="is.deployer.branch">
-            <matches pattern="origin/${deployer.branch}" string="${env.GIT_BRANCH}"/>
+    <target name="is.shipit.branch">
+        <condition property="is.shipit.branch">
+            <matches pattern="origin/${shipit.branch}" string="${env.GIT_BRANCH}"/>
         </condition>
     </target>
 
     <target name="execute"
             description="Deploying project"
-            depends="is.deployer.branch"
-            if="is.deployer.branch"
+            depends="is.shipit.branch"
+            if="is.shipit.branch"
             >
         <echo message="Shipit deploy start"/>
-        <exec executable="shipit" failonerror="true" dir="www">
+        <exec executable="shipit" failonerror="true" dir="${shipit.dir}">
             <arg value="staging"/>
-            <arg value="deploy"/>
+            <arg value="${shipit.staging}"/>
         </exec>
     </target>
 </project>
