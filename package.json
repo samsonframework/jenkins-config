@@ -6,8 +6,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/samsonframework/jenkins-config"
+    "url": "git+ssh://git@github.com/samsonframework/jenkins-config.git"
   },
   "author": "SamsonOS",
-  "license": "ISC"
+  "license": "ISC",
+  "name": "jenkins-config",
+  "bugs": {
+    "url": "https://github.com/samsonframework/jenkins-config/issues"
+  },
+  "homepage": "https://github.com/samsonframework/jenkins-config#readme",
+  "version": "1.0.16",
+  "keywords": [
+    "jenkins"
+  ]
 }
