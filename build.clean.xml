@@ -2,6 +2,7 @@
     <property name="builddir" value="${basedir}/build/"/>
     <property name="failsdir" value="${builddir}/fails"/>
     <property name="buildoutputdir" value="${builddir}/logs"/>
+    <property name="vendorpath" value="vendor/samsonframework"/>
 
     <target name="execute" description="Cleanup build artifacts">
         <echo message="Current branch: ${env.GIT_BRANCH}"/>
@@ -14,6 +15,6 @@
         <chmod perm="777" dir="${failsdir}" type="dir" includes="**"/>
 
         <echo message="Create project package.json to avoid errors with NPM"/>
-        <copy file="vendor/samsonframework/jenkins-config/package.json" tofile="package.json" />
+        <copy file="${vendorpath}/jenkins-config/package.json" tofile="package.json" />
     </target>
 </project>
