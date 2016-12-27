@@ -3,7 +3,7 @@
     <property name="symfony.target_parameters" value="${basedir}/app/config/parameters_test.yml"/>
 
     <property name="symfony.bin_dir" value="app"/>
-    <property name="symfony.need.assetic-dump" value="1"/>
+    <property name="symfony.need.assetic-dump" value="true"/>
     
 
     <target name="prepare" description="Prepare Symfony parameters">
@@ -26,10 +26,17 @@
         <delete dir="${basedir}/app/cache/prod"/>
         <delete dir="${basedir}/app/cache/test"/>
     </target>
+
+    <target name="is.symfony.need.assetic-dump">
+        <condition property="is.symfony.need.assetic-dump">
+            <equals arg1="${symfony.need.assetic-dump}" arg2="true"/>
+        </condition>
+    </target>
     
-    
-    
-    <target name="assetic-dump" description="Assetic dump" if="symfony.need.assetic-dump">
+    <target name="assetic-dump"
+            description="Assetic dump"
+            depends="is.symfony.need.assetic-dump"
+            if="is.symfony.need.assetic-dump">
         <exec executable="php">
             <arg value="${symfony.bin_dir}/console"/>
             <arg value="assetic:dump"/>
