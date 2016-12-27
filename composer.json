@@ -35,7 +35,7 @@
   "homepage": "http://samsonos.com/",
   "extra": {
     "branch-alias": {
-      "dev-master": "*"
+      "dev-master": "*@dev"
     }
   }
 }
