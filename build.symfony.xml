@@ -2,6 +2,10 @@
 
     <property name="symfony.target_parameters" value="${basedir}/app/config/parameters_test.yml"/>
 
+    <property name="symfony.bin_dir" value="app"/>
+    <property name="symfony.need.assetic-dump" value="1"/>
+    
+
     <target name="prepare" description="Prepare Symfony parameters">
         <exec executable="cp">
             <arg value="-f"></arg>
@@ -23,9 +27,11 @@
         <delete dir="${basedir}/app/cache/test"/>
     </target>
     
-    <target name="assetic-dump" description="Assetic dump">
+    
+    
+    <target name="assetic-dump" description="Assetic dump" if="symfony.need.assetic-dump">
         <exec executable="php">
-            <arg value="app/console"/>
+            <arg value="${symfony.bin_dir}/console"/>
             <arg value="assetic:dump"/>
             <arg value="--env=prod"/>
             <arg value="--no-debug"/>
@@ -34,7 +40,7 @@
 
     <target name="translations-import" description="Import translations">
         <exec executable="php">
-            <arg value="app/console"/>
+            <arg value="${symfony.bin_dir}/console"/>
             <arg value="lexik:translations:import"/>
             <arg value="--case-insensitive"/>
             <arg value="-g"/>
