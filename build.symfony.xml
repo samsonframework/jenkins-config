@@ -4,9 +4,20 @@
 
     <property name="symfony.bin_dir" value="app"/>
     <property name="symfony.need.assetic-dump" value="true"/>
+    <property name="symfony.need.translations-import" value="true"/>
+
+    <target name="symfony.init">
+        <condition property="is.symfony.need.assetic-dump">
+            <equals arg1="${symfony.need.assetic-dump}" arg2="true"/>
+        </condition>
+
+        <condition property="is.symfony.need.translations-import">
+            <equals arg1="${symfony.need.translations-import}" arg2="true"/>
+        </condition>
+    </target>
     
 
-    <target name="prepare" description="Prepare Symfony parameters">
+    <target name="symfony.prepare" description="Prepare Symfony parameters">
         <exec executable="cp">
             <arg value="-f"></arg>
             <arg value="${symfony.target_parameters}"/>
@@ -14,28 +25,26 @@
         </exec>
     </target>
 
-    <target name="migrate" depends="prepare" description="Migrate">
+    <target name="symfony.migrate"
+            depends="symfony.prepare"
+            description="Migrate">
         <exec executable="php">
-            <arg value="app/console"/>
+            <arg value="${symfony.bin_dir}/console"/>
             <arg value="doctrine:migrations:migrate"/>
             <arg value="--no-interaction"></arg>
         </exec>
     </target>
 
-    <target name="cache-clear" description="Clear cache">
+    <target name="symfony.cache-clear" description="Clear cache">
         <delete dir="${basedir}/app/cache/prod"/>
         <delete dir="${basedir}/app/cache/test"/>
     </target>
 
-    <target name="is.symfony.need.assetic-dump">
-        <condition property="is.symfony.need.assetic-dump">
-            <equals arg1="${symfony.need.assetic-dump}" arg2="true"/>
-        </condition>
-    </target>
+
     
-    <target name="assetic-dump"
+    <target name="symfony.assetic-dump"
             description="Assetic dump"
-            depends="is.symfony.need.assetic-dump"
+            depends="symfony.init"
             if="is.symfony.need.assetic-dump">
         <exec executable="php">
             <arg value="${symfony.bin_dir}/console"/>
@@ -45,7 +54,10 @@
         </exec>
     </target>
 
-    <target name="translations-import" description="Import translations">
+    <target name="symfony.translations-import"
+            description="Import translations"
+            depends="symfony.init"
+            if="is.symfony.need.translations-import">
         <exec executable="php">
             <arg value="${symfony.bin_dir}/console"/>
             <arg value="lexik:translations:import"/>
@@ -57,7 +69,7 @@
 
     <target
         name="execute"
-        depends="prepare,migrate,cache-clear,assetic-dump,translations-import"
+        depends="symfony.prepare,symfony.migrate,symfony.cache-clear,symfony.assetic-dump,symfony.translations-import"
         description="Running symfony commands"
     />
 
