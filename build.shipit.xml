@@ -1,6 +1,6 @@
 <project name="shipit">
     <property name="shipit.branch" value="dev"/>
-    <property name="shipit.dir" value="www"/>
+    <property name="shipit.dir" value=""/>
     <property name="shipit.staging" value="deploy"/>
     
     <target name="is.shipit.branch">
