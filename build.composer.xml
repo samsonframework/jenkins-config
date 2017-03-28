@@ -1,0 +1,18 @@
+<project name="composer">
+    <property name="codebase" value="${basedir}/src/"/>
+    <property name="composer" value="composer"/>
+
+    <target name="composer.update">
+        <exec executable="${composer}">
+            <arg value="update"/>
+            <arg value="--no-interaction"/>
+        </exec>
+    </target>
+
+    <target name="composer.install">
+        <exec executable="${composer}">
+            <arg value="install"/>
+            <arg value="--no-interaction"/>
+        </exec>
+    </target>
+</project>
