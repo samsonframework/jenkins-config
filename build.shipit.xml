@@ -9,7 +9,7 @@
         </condition>
     </target>
 
-    <target name="execute"
+    <target name="shipit.execute"
             description="Deploying project"
             depends="is.shipit.branch"
             if="is.shipit.branch"

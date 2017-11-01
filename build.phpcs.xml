@@ -4,7 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phpcs" value="${basedir}/vendor/bin/phpcs"/>
 
-    <target name="execute" description="Find coding standard violations using PHP_CodeSniffer and log result in XML format. Intended for usage within a continuous integration environment.">
+    <target name="phpcs.execute" description="Find coding standard violations using PHP_CodeSniffer and log result in XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phpcs}" output="/dev/null">
             <arg value="--report=checkstyle"/>
             <arg value="--report-file=${buildoutputdir}/checkstyle.xml"/>

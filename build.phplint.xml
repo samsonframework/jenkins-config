@@ -2,7 +2,7 @@
     <property name="codebase" value="${basedir}/src/"/>
     <property name="phplint" value="php"/>
 
-    <target name="execute" description="Perform syntax check of sourcecode files">
+    <target name="phplint.execute" description="Perform syntax check of sourcecode files">
         <apply executable="php">
             <arg value="-l"/>
             <fileset dir="${codebase}">

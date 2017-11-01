@@ -4,7 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="pdepend" value="${basedir}/vendor/bin/pdepend"/>
 
-    <target name="execute"
+    <target name="pdepend.execute"
             description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
         <delete dir="${builddir}/pdepend"/>
         <mkdir dir="${builddir}/pdepend"/>

@@ -2,17 +2,17 @@
     <property name="builddir" value="${basedir}/build/"/>
     <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/>
 
-    <target name="prepare">
+    <target name="phpunit.prepare">
         <delete dir="${builddir}/coverage"/>
         <mkdir dir="${builddir}/coverage"/>
     </target>
     
-    <target name="check-phpunit" depends="prepare">
+    <target name="phpunit.check" depends="phpunit.prepare">
         <available file="${builddir}/phpunit.xml" property="phpunit.present"/>
     </target>
 
-    <target name="execute"
-            depends="check-phpunit"
+    <target name="phpunit.execute"
+            depends="phpunit.check"
             description="Run unit tests with PHPUnit"
             if="phpunit.present">
         <exec executable="${phpunit}" resultproperty="result.phpunit" failonerror="true">
@@ -21,8 +21,8 @@
         </exec>
     </target>
 
-    <target name="execute-no-coverage"
-            depends="check-phpunit"
+    <target name="phpunit.execute-no-coverage"
+            depends="phpunit.check"
             description="Run unit tests with PHPUnit (without generating code coverage reports)"
             if="phpunit.present">
         <exec executable="${phpunit}" failonerror="true">

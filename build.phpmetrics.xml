@@ -9,7 +9,7 @@
         </condition>
     </target>
 
-    <target name="execute" description="Gathering phpMetircs" if="is.phpmetrics.branch">
+    <target name="phpmetrics.execute" description="Gathering phpMetircs" if="is.phpmetrics.branch">
         <exec executable="${phpmetrics}">
             <!--<arg value="&#45;&#45;plugins=./vendor/phpmetrics/symfony-extension/SymfonyExtension.php"/>-->
             <arg value="--report-html=${buildoutputdir}/phpmetrics.html"/>

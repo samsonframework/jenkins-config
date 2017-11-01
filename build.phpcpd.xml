@@ -4,7 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phpcpd" value="${basedir}/vendor/bin/phpcpd"/>
 
-    <target name="execute"
+    <target name="phpcpd.execute"
             description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phpcpd}">
             <arg value="--log-pmd"/>

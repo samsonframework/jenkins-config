@@ -5,7 +5,7 @@
     <property name="csshint" value="${basedir}/vendor/bin/csshint"/>
     <property name="npm" value="npm"/>
 
-    <target name="prepare">
+    <target name="csshint.prepare">
         <exec executable="${npm}">
             <arg value="install"/>
             <arg value="csslint"/>
@@ -15,8 +15,8 @@
         <property name="prepare.done" value="true"/>
     </target>
 
-    <target name="execute"
-            depends="prepare"
+    <target name="csshint.execute"
+            depends="csshint.prepare"
             description="Run the CSS linter tool">
         <fileset dir="${codebase}" id="cssfiles.raw">
             <include name="**/*.css"/>

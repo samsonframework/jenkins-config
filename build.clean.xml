@@ -4,7 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="vendorpath" value="vendor/samsonframework"/>
 
-    <target name="execute" description="Cleanup build artifacts">
+    <target name="clean.execute" description="Cleanup build artifacts">
         <echo message="Current branch: ${env.GIT_BRANCH}"/>
 
         <delete dir="${buildoutputdir}"/>

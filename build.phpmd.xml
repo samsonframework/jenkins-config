@@ -4,7 +4,7 @@
     <property name="buildoutputdir" value="${builddir}/logs"/>
     <property name="phpmd" value="${basedir}/vendor/bin/phpmd"/>
 
-    <target name="execute" description="Perform project mess detection using PHPMD and log result in XML format. Intended for usage within a continuous integration environment.">
+    <target name="phpmd.execute" description="Perform project mess detection using PHPMD and log result in XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phpmd}">
             <arg path="${codebase}"/>
             <arg value="xml"/>

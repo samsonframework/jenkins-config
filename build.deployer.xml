@@ -9,7 +9,7 @@
         </condition>
     </target>
 
-    <target name="execute"
+    <target name="deployer.execute"
             description="Deploying project"
             depends="is.deployer.branch"
             if="is.deployer.branch"

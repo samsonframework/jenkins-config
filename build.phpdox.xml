@@ -10,7 +10,7 @@
         </condition>
     </target>
 
-    <target name="execute" description="Generate project documentation using phpDox" if="is.phpdox.branch">
+    <target name="phpdox.execute" description="Generate project documentation using phpDox" if="is.phpdox.branch">
         <delete dir="${builddir}/phpdox"/>
         <mkdir dir="${builddir}/phpdox"/>
         <exec executable="${phpdox}" dir="${buildoutputdir}">

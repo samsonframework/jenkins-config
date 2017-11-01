@@ -5,7 +5,7 @@
     <property name="lesshint" value="${basedir}/vendor/bin/lesshint"/>
     <property name="npm" value="npm"/>
 
-    <target name="prepare">
+    <target name="lesshint.prepare">
         <exec executable="${npm}">
             <arg value="install"/>
             <arg value="lesshint"/>
@@ -21,8 +21,8 @@
         <property name="prepare.done" value="true"/>
     </target>
 
-    <target name="execute"
-            depends="prepare"
+    <target name="lesshint.execute"
+            depends="lesshint.prepare"
             description="Run the LessHint tool on less files">
         <exec executable="${lesshint}" output="${buildoutputdir}/lesshint.xml">
             <arg line="--reporter lesshint-lint-xml-reporter ${codebase}"/>
