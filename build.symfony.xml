@@ -68,7 +68,7 @@
     </target>
 
     <target
-        name="execute"
+        name="symfony.execute"
         depends="symfony.prepare,symfony.migrate,symfony.cache-clear,symfony.assetic-dump,symfony.translations-import"
         description="Running symfony commands"
     />
