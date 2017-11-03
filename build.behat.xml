@@ -1,18 +1,31 @@
 <project name="behat">
     <property name="builddir" value="${basedir}/build/"/>
+    <property name="failsdir" value="${builddir}/fails/"/>
     <property name="behat" value="${basedir}/vendor/bin/behat"/>
     <property name="behat.configuration" value="behat.chrome.yml"/>
     <property name="behat.profile" value="jenkins"/>
+    <property name="behat.fail_img" value="Fail*"/>
 
-    <target name="behat.execute" description="Running Behat tests" if="behat.configuration">
-        <exec executable="${behat}" failonerror="true">
+    <target name="behat.run">
+        <exec executable="${behat}" resultproperty="behat.result">
             <arg value="-c"/>
             <arg value="${behat.configuration}"/>
             <arg value="-p"/>
             <arg value="${behat.profile}"/>
         </exec>
-        <move todir="${failsdir}">
-            <fileset dir="${basedir}" includes="Fail*.jpg"/>
-        </move>
+        <condition property="behat.failed" value="true">
+            <not>
+                <equals arg1="0" arg2="${behat.result}"/>
+            </not>
+        </condition>
     </target>
+
+    <target name="behat.move_fails" if="behat.failed">
+        <move todir="${failsdir}">
+            <fileset dir="${basedir}" includes="${behat.fail_img}"/>
+        </move>
+        <fail message="Behat tests have failed"/>
+    </target>
+
+    <target name="behat.execute" depends="behat.run, behat.move_fails"/>
 </project>
