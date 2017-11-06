@@ -1,6 +1,7 @@
 <project name="phpunit">
     <property name="builddir" value="${basedir}/build/"/>
     <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/>
+    <property name="phpunit.argument" value="--debug"/>
 
     <target name="phpunit.prepare">
         <delete dir="${builddir}/coverage"/>
@@ -16,6 +17,7 @@
             description="Run unit tests with PHPUnit"
             if="phpunit.present">
         <exec executable="${phpunit}" resultproperty="result.phpunit" failonerror="true">
+            <arg value="${phpunit.argument}"/>
             <arg value="--configuration"/> 
             <arg path="${builddir}/phpunit.xml"/>
         </exec>
@@ -26,6 +28,7 @@
             description="Run unit tests with PHPUnit (without generating code coverage reports)"
             if="phpunit.present">
         <exec executable="${phpunit}" failonerror="true">
+            <arg value="${phpunit.argument}"/>
             <arg value="--configuration"/>
             <arg path="${builddir}/phpunit.xml"/>
             <arg value="--no-coverage"/>
